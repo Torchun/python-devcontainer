@@ -1,0 +1,44 @@
+name: python-devcontainer
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    command: sleep infinity
+    working_dir: /workspace
+    hostname: python-devcontainer
+    volumes:
+      # The repository is mounted into the container (edits are shared with the host).
+      - ..:/workspace
+    ports:
+      # Application services, published for host access at 0.0.0.0
+      - "${DEV_PORT:-9999}:9999"
+      - "${API_PORT:-9998}:9998"
+      - "${ADMIN_PORT:-9997}:9997"
+    environment:
+      PYTHONUNBUFFERED: "1"
+    # NOTE: docker.sock is intentionally NOT mounted, so the agent running inside
+    # this container cannot control the host Docker daemon (host isolation).
+
+# Deferred sketch
+#
+#   db:
+#     image: postgis/postgis:17-3.5
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: some_db
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     ports:
+#       - "${DB_PORT:-5432}:5432"
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U postgres"]
+#       interval: 5s
+#       timeout: 5s
+#       retries: 10
+#
+# volumes:
+#   pgdata:

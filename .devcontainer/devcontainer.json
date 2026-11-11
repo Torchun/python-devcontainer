@@ -1,0 +1,43 @@
+{
+  "name": "python-devcontainer-llm-agent",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "vscode",
+  "forwardPorts": [9999, 9998, 9997],
+  "portsAttributes": {
+    "9999": {
+      "label": "dev-port",
+      "onAutoForward": "notify"
+    },
+    "9998": {
+      "label": "api-port",
+      "onAutoForward": "notify"
+    },
+    "9997": {
+      "label": "admin-port",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-azuretools.vscode-docker",
+        "saoudrizwan.claude-dev"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "python.testing.pytestEnabled": true,
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        }
+      }
+    }
+  },
+  "postCreateCommand": "python --version && uv --version"
+}
